@@ -10,8 +10,14 @@ import cors from "cors";
 const uri = process.env.DB_URL;
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || "http://localhost:5173", // Your frontend URL
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // If you need to send cookies or auth headers
+  optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+};
+
+app.use(cors(corsOptions));app.use(express.json());
 app.set("port", process.env.PORT || 5500);
 
 app.use("/api/users",userRoutes)
